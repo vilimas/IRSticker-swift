@@ -5,7 +5,7 @@
 //  Created by Phil on 2020/9/16.
 //  Copyright © 2020 Phil. All rights reserved.
 //
-
+import Foundation
 import UIKit
 
 let kStickerControlViewSize: CGFloat = 30
@@ -47,6 +47,9 @@ public class IRStickerView: UIView, UIGestureRecognizerDelegate {
             self.setDelegate(delegate: self.delegate)
         }
     }
+    
+    public var rotateRad: Double = 0.0
+    public var scale: Double = 1.0
     
     var contentView: UIImageView!
 
@@ -282,6 +285,12 @@ public class IRStickerView: UIView, UIGestureRecognizerDelegate {
         self.leftTopControl.center = CGPoint.init(x: originalCenter.x - self.contentView.bounds.size.width / 2.0, y: originalCenter.y - self.contentView.bounds.size.height / 2.0).applying(self.contentView.transform)
         self.rightTopControl.center = CGPoint.init(x: originalCenter.x + self.contentView.bounds.size.width / 2.0, y: originalCenter.y - self.contentView.bounds.size.height / 2.0).applying(self.contentView.transform)
         self.leftBottomControl.center = CGPoint.init(x: originalCenter.x - self.contentView.bounds.size.width / 2.0, y: originalCenter.y + self.contentView.bounds.size.height / 2.0).applying(self.contentView.transform)
+        
+        
+        //Update info
+        self.rotateRad = Double(atan2f(Float(self.contentView.transform.b), Float(self.contentView.transform.a)))
+//        self.rotateRad = Double(rad) * Double(180.0/Double.pi)
+        self.scale = self.contentView.transform.scale
     }
 
 // MARK: - UIGestureRecognizerDelegate
@@ -431,3 +440,8 @@ public extension IRStickerViewDelegate {
 
 
 
+extension CGAffineTransform {
+    var scale: Double {
+        return sqrt(Double(a * a + c * c))
+    }
+}
