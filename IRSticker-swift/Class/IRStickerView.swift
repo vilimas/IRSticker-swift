@@ -230,10 +230,10 @@ public class IRStickerView: UIView, UIGestureRecognizerDelegate {
         let translation = gesture.translation(in: self.superview)
         // Boundary detection
         var targetPoint = CGPoint.init(x: self.center.x + translation.x, y: self.center.y + translation.y)
-        targetPoint.x = max(0, targetPoint.x)
-        targetPoint.y = max(0, targetPoint.y)
-        targetPoint.x = min(self.superview!.bounds.size.width, targetPoint.x)
-        targetPoint.y = min(self.superview!.bounds.size.height, targetPoint.y)
+        targetPoint.x = max(((self.frame.height/2 - kStickerHalfControlViewSize) * CGFloat(scale)), targetPoint.x)
+        targetPoint.y = max(((self.frame.width/2 - kStickerHalfControlViewSize) * CGFloat(scale)), targetPoint.y)
+        targetPoint.x = min(self.superview!.bounds.size.width-((self.frame.width/2 - kStickerHalfControlViewSize) * CGFloat(scale)), targetPoint.x)
+        targetPoint.y = min(self.superview!.bounds.size.height-((self.frame.height/2 - kStickerHalfControlViewSize) * CGFloat(scale)), targetPoint.y)
         
         self.center = targetPoint
         gesture.setTranslation(CGPoint.zero, in: self.superview)
